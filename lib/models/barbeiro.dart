@@ -7,8 +7,7 @@ class Barbeiro{
      
 @override
   String toString() {
-    
-    return super.toString();
+    return 'Barbeiro: (id: $_id, nome: $nome)' ;
   }
 
  
