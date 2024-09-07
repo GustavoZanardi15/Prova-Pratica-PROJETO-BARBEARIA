@@ -1,13 +1,28 @@
+import 'serviço.dart';
+
 class Cliente {
 
-  String nome;
   int _id;
-  String servico;
+  String nome;
+  List<Servico> servicos;
 
-  Cliente (this.nome, this._id, this.servico);
+  Cliente (this._id, this.nome, this.servicos);
 
-@override
-  String toString() {
-    return 'Cliente: (id: $_id, nome: $nome, servico: $servico)';
-  }
+int get id => _id;
+set id(int value) => _id =value;
+
+//JSON EM CLIENTE
+Cliente.fromjson(Map<String , dynamic> json)
+: _id = json['id'],
+ nome = json['nome'],
+    servicos =(json['servicos'] as List)
+    .map((servicoJson) => Servico.fromJson(servicoJson))
+    .toList();
+
+//CLIENTE EM JSON
+  Map<String, dynamic> toJson() => {
+        'id': _id,
+        'nome': nome,
+        'servicos': servicos.map((servico) => servico.toJson()).toList(),
+      };
 }
