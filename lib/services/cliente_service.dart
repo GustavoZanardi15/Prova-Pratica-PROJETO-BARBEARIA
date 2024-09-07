@@ -10,7 +10,7 @@ class ClienteService {
 
   void updateCliente(int id , Cliente clienteUpdate){
   final index = _clientes.indexWhere((cliente)=> cliente.id == id);
-  if(index != -1){
+   if(index != -1){
     _clientes[index] = clienteUpdate;
     }
   }
@@ -22,4 +22,8 @@ class ClienteService {
   List<Cliente>getClientes(){
     return _clientes;
   }
+  Cliente? getClienteById(int id) {
+    return _clientes.firstWhere((cliente) => cliente.id == id, orElse: () => throw Exception("Cliente não enncontrado"));
+  }
+   
 }

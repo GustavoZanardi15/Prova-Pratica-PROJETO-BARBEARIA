@@ -4,8 +4,8 @@ class BarbeiroService {
 
 final List<Barbeiro> _barbeiros =[];
 
-void adicionarBarbeiro(int id, String nome){
-  _barbeiros.add(Barbeiro(id, nome));
+void adicionarBarbeiro(Barbeiro barbeiro){
+     _barbeiros.add(barbeiro);
 }
   
 
