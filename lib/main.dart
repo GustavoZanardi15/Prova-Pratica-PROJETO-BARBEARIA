@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'models/barbeiro.dart';
+import 'models/cliente.dart';
+import 'models/serviço.dart';
 
 void main() {
-
 }

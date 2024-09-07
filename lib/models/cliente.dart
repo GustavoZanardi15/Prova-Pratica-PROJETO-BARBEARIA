@@ -9,6 +9,7 @@ class Cliente {
   Cliente (this._id, this.nome, this.servicos);
 
 int get id => _id;
+
 set id(int value) => _id =value;
 
 //JSON EM CLIENTE
@@ -24,5 +25,11 @@ Cliente.fromjson(Map<String , dynamic> json)
         'id': _id,
         'nome': nome,
         'servicos': servicos.map((servico) => servico.toJson()).toList(),
-      };
+     };
+
+@override
+String toString() {
+  return 'Cliente: {id: $_id, nome: $nome, servicos: ${servicos.map((servico) => servico.toString()).toList()}}';
+}
+
 }
