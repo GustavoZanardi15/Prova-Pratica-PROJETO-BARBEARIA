@@ -1,36 +1,30 @@
-import 'package:barbearia/models/cliente.dart';
-import 'package:barbearia/services/cliente_service.dart';
+import 'package:flutter/material.dart';
+import 'package:barbearia/screens/home_screen.dart'; 
+import 'package:barbearia/screens/listagem_screen.dart';
+import 'package:barbearia/screens/formulario_screen.dart'; 
+import 'package:barbearia/screens/dashboard_screen.dart'; 
 
 void main() {
-  // Criando uma instância do ClienteService
-  final clienteService = ClienteService();
+  runApp(const MyApp());
+}
 
-  // Criando alguns clientes
-  final cliente1 = Cliente(1, "Maria", []);
-  final cliente2 = Cliente(2, "João", []);
-  final cliente3 = Cliente(3, "Ana", []);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // Adicionando clientes
-  clienteService.adicionarCliente(cliente1);
-  clienteService.adicionarCliente(cliente2);
-  clienteService.adicionarCliente(cliente3);
-
-  // Listando clientes após adição
-  print("Clientes após adição:");
-  clienteService.getClientes().forEach((cliente) => print(cliente));
-
-  // Atualizando um cliente
-  final clienteAtualizado = Cliente(2, "João Silva", []);
-  clienteService.updateCliente(2, clienteAtualizado);
-
-  // Listando clientes após atualização
-  print("\nClientes após atualização:");
-  clienteService.getClientes().forEach((cliente) => print(cliente));
-
-  // Removendo um cliente
-  clienteService.deleteCliente(1);
-
-  // Listando clientes após remoção
-  print("\nClientes após remoção:");
-  clienteService.getClientes().forEach((cliente) => print(cliente));
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Barbearia App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const HomeScreen(),
+      routes: {
+        '/listagem': (context) => ListagemScreen(),
+        '/formulario': (context) => FormularioScreen(), 
+        '/dashboard': (context) => DashboardScreen(), 
+      },
+    );
+  }
 }
