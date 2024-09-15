@@ -1,45 +1,41 @@
 import 'package:barbearia/models/barbeiro.dart';
-import 'package:barbearia/models/servico.dart';
+import 'package:barbearia/services/database_helper.dart';
 
 class BarbeiroService {
-  final List<Barbeiro> _barbeiros = [];
+  static final BarbeiroService instance = BarbeiroService._privateConstructor();
 
-  void adicionarBarbeiro(Barbeiro barbeiro) {
-    _barbeiros.add(barbeiro);
+  BarbeiroService._privateConstructor();
+
+  Future<void> adicionarBarbeiro(Barbeiro barbeiro) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.insert('barbeiros', {'id': barbeiro.id, 'nome': barbeiro.nome});
   }
 
-  void updateBarbeiro(int id, Barbeiro updateBarbeiro) {
-    final index = _barbeiros.indexWhere((barbeiro) => barbeiro.id == id);
-    if (index != -1) {
-      _barbeiros[index] = updateBarbeiro;
-    }
+  Future<List<Barbeiro>> getBarbeiros() async {
+    final db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('barbeiros');
+
+    return List.generate(maps.length, (i) {
+      return Barbeiro.fromJson(maps[i]);
+    });
   }
 
-  void deleteBarbeiro(int id) {
-    _barbeiros.removeWhere((barbeiro) => barbeiro.id == id);
-  }
-
-  List<Barbeiro> getBarbeiros() {
-    return _barbeiros;
-  }
-
-  Barbeiro? getBarbeiroById(int id) {
-    return _barbeiros.firstWhere(
-      (barbeiro) => barbeiro.id == id,
-      orElse: () => throw Exception("Barbeiro não encontrado")
+  Future<void> updateBarbeiro(Barbeiro barbeiro) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.update(
+      'barbeiros',
+      {'id': barbeiro.id, 'nome': barbeiro.nome},
+      where: 'id = ?',
+      whereArgs: [barbeiro.id],
     );
   }
 
-  void adicionarServicoParaBarbeiro(int barbeiroId, Servico servico) {
-    final barbeiro = getBarbeiroById(barbeiroId);
-    if (barbeiro != null) {
-      barbeiro.servicos.add(servico); // Adiciona o serviço à lista
-      updateBarbeiro(barbeiroId, barbeiro); // Atualiza o barbeiro com a lista modificada
-    }
-  }
-
-  List<Servico> getServicosDoBarbeiro(int barbeiroId) {
-    final barbeiro = getBarbeiroById(barbeiroId);
-    return barbeiro?.servicos ?? []; // Retorna a lista de serviços ou uma lista vazia
+  Future<void> deleteBarbeiro(int id) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete(
+      'barbeiros',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

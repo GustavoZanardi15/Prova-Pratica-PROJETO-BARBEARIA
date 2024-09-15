@@ -1,37 +1,41 @@
 import 'package:barbearia/models/servico.dart';
+import 'package:barbearia/services/database_helper.dart';
 
 class ServicoService {
-  // Construtor privado
-  ServicoService._privateConstructor();
-
-  // Instância única da classe
   static final ServicoService instance = ServicoService._privateConstructor();
 
-  final List<Servico> _servicos = [];
+  ServicoService._privateConstructor();
 
-  void adicionarServico(Servico servico) {
-    _servicos.add(servico);
+  Future<void> adicionarServico(Servico servico) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.insert('servicos', servico.toJson());
   }
 
-  void updateServico(int id, Servico servicoUpdate) {
-    final index = _servicos.indexWhere((servico) => servico.id == id);
-    if (index != -1) {
-      _servicos[index] = servicoUpdate;
-    }
+  Future<List<Servico>> getServicos() async {
+    final db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('servicos');
+
+    return List.generate(maps.length, (i) {
+      return Servico.fromJson(maps[i]);
+    });
   }
 
-  void deleteServico(int id) {
-    _servicos.removeWhere((servico) => servico.id == id);
+  Future<void> updateServico(Servico servico) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.update(
+      'servicos',
+      servico.toJson(),
+      where: 'id = ?',
+      whereArgs: [servico.id],
+    );
   }
 
-  List<Servico> getServicos() {
-    return _servicos;
-  }
-
-  Servico? getServicoById(int id) {
-    return _servicos.firstWhere(
-      (servico) => servico.id == id,
-      orElse: () => throw Exception("Serviço não encontrado"),
+  Future<void> deleteServico(int id) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete(
+      'servicos',
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 }

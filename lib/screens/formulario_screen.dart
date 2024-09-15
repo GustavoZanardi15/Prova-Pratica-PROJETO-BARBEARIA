@@ -1,47 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:barbearia/services/servico_service.dart';
 import 'package:barbearia/models/servico.dart';
+import 'package:barbearia/services/servico_service.dart';
 
-class FormularioScreen extends StatefulWidget {
+class FormularioScreen extends StatelessWidget {
   const FormularioScreen({Key? key}) : super(key: key);
 
   @override
-  _FormularioScreenState createState() => _FormularioScreenState();
-}
-
-class _FormularioScreenState extends State<FormularioScreen> {
-  final _nomeController = TextEditingController();
-  final _precoController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    // Exemplo simples de campos
+    final TextEditingController nomeController = TextEditingController();
+    final TextEditingController precoController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastro de Serviço'),
+        title: const Text('Formulário de Serviço'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              controller: _nomeController,
+              controller: nomeController,
               decoration: const InputDecoration(labelText: 'Nome do Serviço'),
             ),
             TextField(
-              controller: _precoController,
+              controller: precoController,
               decoration: const InputDecoration(labelText: 'Preço'),
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.number,
             ),
             ElevatedButton(
               onPressed: () {
-                final nome = _nomeController.text;
-                final preco = _precoController.text; // Armazene como string
+                final nome = nomeController.text;
+                final preco = precoController.text;
 
-                final servico = Servico(DateTime.now().millisecondsSinceEpoch, nome, preco);
-                ServicoService.instance.adicionarServico(servico);
+                if (nome.isNotEmpty && preco.isNotEmpty) {
+                  final servico = Servico(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    nome: nome,
+                    descricao: preco,
+                  );
 
-                // Navegue de volta para a tela anterior ou atualize a tela
-                Navigator.pop(context);
+                  ServicoService.instance.adicionarServico(servico);
+
+                  // Opcionalmente, mostrar um feedback ou navegação
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Serviço adicionado')),
+                  );
+                }
               },
               child: const Text('Adicionar Serviço'),
             ),

@@ -1,29 +1,41 @@
 import 'package:barbearia/models/cliente.dart';
+import 'package:barbearia/services/database_helper.dart';
 
 class ClienteService {
+  static final ClienteService instance = ClienteService._privateConstructor();
 
-  final List<Cliente> _clientes = [];
+  ClienteService._privateConstructor();
 
-  void adicionarCliente(Cliente cliente){
-    _clientes.add(cliente);
+  Future<void> adicionarCliente(Cliente cliente) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.insert('clientes', {'id': cliente.id, 'nome': cliente.nome});
   }
 
-  void updateCliente(int id , Cliente clienteUpdate){
-  final index = _clientes.indexWhere((cliente)=> cliente.id == id);
-   if(index != -1){
-    _clientes[index] = clienteUpdate;
-    }
+  Future<List<Cliente>> getClientes() async {
+    final db = await DatabaseHelper.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('clientes');
+
+    return List.generate(maps.length, (i) {
+      return Cliente.fromJson(maps[i]);
+    });
   }
 
-  void deleteCliente(int id){
-    _clientes.removeWhere((cliente)=> cliente.id == id);
+  Future<void> updateCliente(Cliente cliente) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.update(
+      'clientes',
+      {'id': cliente.id, 'nome': cliente.nome},
+      where: 'id = ?',
+      whereArgs: [cliente.id],
+    );
   }
 
-  List<Cliente>getClientes(){
-    return _clientes;
+  Future<void> deleteCliente(int id) async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete(
+      'clientes',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
-  Cliente? getClienteById(int id) {
-    return _clientes.firstWhere((cliente) => cliente.id == id, orElse: () => throw Exception("Cliente não enncontrado"));
-  }
-   
 }
