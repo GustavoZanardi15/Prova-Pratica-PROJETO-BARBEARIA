@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:barbearia/screens/home_screen.dart'; 
+import 'package:barbearia/screens/dashboard_screen.dart';
+import 'package:barbearia/screens/formulario_screen.dart';
 import 'package:barbearia/screens/listagem_screen.dart';
-import 'package:barbearia/screens/formulario_screen.dart'; 
-import 'package:barbearia/screens/dashboard_screen.dart'; 
+import 'package:barbearia/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomeScreen(),
       routes: {
-        '/listagem': (context) => ListagemScreen(),
-        '/formulario': (context) => FormularioScreen(), 
-        '/dashboard': (context) => DashboardScreen(), 
+        '/listagem': (context) => const ListagemScreen(),
+        '/formulario': (context) => const FormularioScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
       },
     );
   }

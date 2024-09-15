@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:barbearia/models/barbeiro.dart';
-import 'package:barbearia/services/barbeiro_service.dart';
+import 'package:barbearia/models/servico.dart';
+import 'package:barbearia/services/servico_service.dart';
 
 class FormularioScreen extends StatefulWidget {
   const FormularioScreen({Key? key}) : super(key: key);
@@ -11,22 +11,13 @@ class FormularioScreen extends StatefulWidget {
 
 class _FormularioScreenState extends State<FormularioScreen> {
   final _nomeController = TextEditingController();
-  final _barbeiroService = BarbeiroService();
-
-  void _adicionarBarbeiro() {
-    final nome = _nomeController.text;
-    final id = DateTime.now().millisecondsSinceEpoch; // Gerar ID simples
-    final barbeiro = Barbeiro(id, nome);
-    _barbeiroService.adicionarBarbeiro(barbeiro);
-
-    Navigator.pop(context); // Voltar para a tela anterior
-  }
+  final _precoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastro de Barbeiro'),
+        title: const Text('Cadastro de Serviço'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -34,12 +25,25 @@ class _FormularioScreenState extends State<FormularioScreen> {
           children: [
             TextField(
               controller: _nomeController,
-              decoration: const InputDecoration(labelText: 'Nome'),
+              decoration: const InputDecoration(labelText: 'Nome do Serviço'),
             ),
-            const SizedBox(height: 20),
+            TextField(
+              controller: _precoController,
+              decoration: const InputDecoration(labelText: 'Preço'),
+              keyboardType: TextInputType.number,
+            ),
             ElevatedButton(
-              onPressed: _adicionarBarbeiro,
-              child: const Text('Adicionar'),
+              onPressed: () {
+                final nome = _nomeController.text;
+                final preco = double.tryParse(_precoController.text) ?? 0.0;
+
+                final servico = Servico(DateTime.now().millisecondsSinceEpoch, nome, preco);
+                ServicoService.instance.adicionarServico(servico);
+
+                // Navegue de volta para a tela anterior ou atualize a tela
+                Navigator.pop(context);
+              },
+              child: const Text('Adicionar Serviço'),
             ),
           ],
         ),

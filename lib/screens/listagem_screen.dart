@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:barbearia/services/barbeiro_service.dart';
+import 'package:barbearia/services/servico_service.dart';
 
-class ListagemScreen extends StatelessWidget {
+class ListagemScreen extends StatefulWidget {
   const ListagemScreen({Key? key}) : super(key: key);
 
   @override
+  _ListagemScreenState createState() => _ListagemScreenState();
+}
+
+class _ListagemScreenState extends State<ListagemScreen> {
+  @override
   Widget build(BuildContext context) {
-    final barbeiroService = BarbeiroService();
-    final barbeiros = barbeiroService.getBarbeiros();
+    final servicos = ServicoService.instance.getServicos();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Listagem de Barbeiros'),
+        title: const Text('Lista de Serviços'),
       ),
       body: ListView.builder(
-        itemCount: barbeiros.length,
+        itemCount: servicos.length,
         itemBuilder: (context, index) {
-          final barbeiro = barbeiros[index];
+          final servico = servicos[index];
           return ListTile(
-            title: Text(barbeiro.nome),
-            subtitle: Text('ID: ${barbeiro.id}'),
+            title: Text(servico.nome),
+            subtitle: Text('Preço: R\$${servico.preco.toStringAsFixed(2)}'),
           );
         },
       ),

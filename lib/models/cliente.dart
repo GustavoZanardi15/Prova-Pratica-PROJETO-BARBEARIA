@@ -1,4 +1,4 @@
-import 'serviço.dart';
+import 'servico.dart';
 
 class Cliente {
 

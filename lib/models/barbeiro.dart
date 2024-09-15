@@ -1,30 +1,30 @@
-class Barbeiro{
+import 'package:barbearia/models/servico.dart';
 
- int _id;
- String nome;
+class Barbeiro {
+  int _id;
+  String nome;
+  List<Servico> servicos; // Certifique-se de que esta propriedade é do tipo List<Servico>
 
+  Barbeiro(this._id, this.nome, [this.servicos = const []]); // Inicializa a lista de serviços
 
- Barbeiro(this._id, this.nome );
+  int get id => _id;
+  set id(int value) => _id = value;
 
- int get id => _id;
+  Barbeiro.fromJson(Map<String, dynamic> json)
+    : _id = json['id'],
+      nome = json['nome'],
+      servicos = (json['servicos'] as List)
+          .map((servicoJson) => Servico.fromJson(servicoJson))
+          .toList();
 
- set id(int value)=> _id = value;
-
-//JSON EM CLIENTE
-  Barbeiro.fromjson(Map<String, dynamic> json)
-  : _id = json['id'],
-  nome = json['nome'];
-
-//CLIENTE EM JSON
-Map<String, dynamic> toJson ()=>{
-  'id': _id,
-  'nome' : nome,
-};
+  Map<String, dynamic> toJson() => {
+    'id': _id,
+    'nome': nome,
+    'servicos': servicos.map((servico) => servico.toJson()).toList(),
+  };
 
   @override
-String toString() {
-  return 'Barbeiro: {id: $_id, nome: $nome}';
-}
-
-
+  String toString() {
+    return 'Barbeiro: {id: $_id, nome: $nome, servicos: ${servicos.map((servico) => servico.toString()).toList()}}';
   }
+}
