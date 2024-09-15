@@ -23,7 +23,7 @@ class _ListagemScreenState extends State<ListagemScreen> {
           final servico = servicos[index];
           return ListTile(
             title: Text(servico.nome),
-            subtitle: Text('Preço: R\$${servico.preco.toStringAsFixed(2)}'),
+            subtitle: Text('Preço: ${servico.preco}'),
           );
         },
       ),

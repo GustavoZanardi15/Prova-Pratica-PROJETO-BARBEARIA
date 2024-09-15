@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:barbearia/models/servico.dart';
 import 'package:barbearia/services/servico_service.dart';
+import 'package:barbearia/models/servico.dart';
 
 class FormularioScreen extends StatefulWidget {
   const FormularioScreen({Key? key}) : super(key: key);
@@ -30,12 +30,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
             TextField(
               controller: _precoController,
               decoration: const InputDecoration(labelText: 'Preço'),
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
             ),
             ElevatedButton(
               onPressed: () {
                 final nome = _nomeController.text;
-                final preco = double.tryParse(_precoController.text) ?? 0.0;
+                final preco = _precoController.text; // Armazene como string
 
                 final servico = Servico(DateTime.now().millisecondsSinceEpoch, nome, preco);
                 ServicoService.instance.adicionarServico(servico);

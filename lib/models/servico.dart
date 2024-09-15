@@ -1,34 +1,26 @@
+class Servico {
+  final int id;
+  final String nome;
+  final String preco; // Armazenar como String
 
-class Servico{
+  Servico(this.id, this.nome, this.preco);
 
- int _id;
- String nome;
- double preco;
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'nome': nome,
+    'preco': preco,
+  };
 
-Servico(this._id, this.nome, this.preco);
+  factory Servico.fromJson(Map<String, dynamic> json) {
+    return Servico(
+      json['id'],
+      json['nome'],
+      json['preco'],
+    );
+  }
 
-int get id => _id;
-
-set id(int value) => _id = value;
-
-
-//SERVICO EM JSON
-Servico.fromJson(Map<String, dynamic> json)
-: _id = json['id'],
-nome = json['nome'],
-preco = json ['preco'];
-
-
-
-//JSON EM SERVICO
-Map<String, dynamic> toJson()=>{
-  'id' : _id,
-  'nome' : nome,
-  'preco' : preco,
-};
- 
- @override
-  String toString(){
-  return 'Servico:{id: $_id,nome: $nome, preco: $preco}';
+  @override
+  String toString() {
+    return 'Servico: {id: $id, nome: $nome, preco: $preco}';
   }
 }
