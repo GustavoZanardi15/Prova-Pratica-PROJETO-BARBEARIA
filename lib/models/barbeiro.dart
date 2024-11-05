@@ -3,9 +3,9 @@ import 'package:barbearia/models/servico.dart';
 class Barbeiro {
   int _id;
   String nome;
-  List<Servico> servicos; // Certifique-se de que esta propriedade é do tipo List<Servico>
+  List<Servico> servicos; 
 
-  Barbeiro(this._id, this.nome, [this.servicos = const []]); // Inicializa a lista de serviços
+  Barbeiro(this._id, this.nome, [this.servicos = const []]); 
 
   int get id => _id;
   set id(int value) => _id = value;
