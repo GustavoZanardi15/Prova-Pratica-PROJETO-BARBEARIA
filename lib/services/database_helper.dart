@@ -45,5 +45,14 @@ class DatabaseHelper {
         descricao TEXT
       )
     ''');
+
+    // Chama o método para popular dados iniciais
+    await _populateInitialData(db);
+  }
+
+  Future<void> _populateInitialData(Database db) async {
+    await db.insert('servicos', {'id': 1, 'nome': 'Corte', 'descricao': 'Corte de cabelo'});
+    await db.insert('servicos', {'id': 2, 'nome': 'Barba', 'descricao': 'Aparar a barba'});
+    // Adicione mais serviços se necessário
   }
 }

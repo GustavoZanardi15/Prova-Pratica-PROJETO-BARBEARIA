@@ -11,7 +11,7 @@ void main() {
   final mockServicoService = MockServicoService();
 
   test('Filtra serviços retornados pela requisição HTTP', () async {
-    // Dados mock
+
     final servicos = [
       Servico(id: 1, nome: 'Corte de Cabelo', descricao: 'Corte simples'),
       Servico(id: 2, nome: 'Barba', descricao: 'Aparar a barba'),

@@ -15,6 +15,10 @@ class _ListagemScreenState extends State<ListagemScreen> {
   @override
   void initState() {
     super.initState();
+    _loadServicos();
+  }
+
+  void _loadServicos() {
     _servicosFuture = ServicoService.instance.getServicos();
   }
 
@@ -36,7 +40,6 @@ class _ListagemScreenState extends State<ListagemScreen> {
           }
 
           final servicos = snapshot.data!;
-
           return ListView.builder(
             itemCount: servicos.length,
             itemBuilder: (context, index) {

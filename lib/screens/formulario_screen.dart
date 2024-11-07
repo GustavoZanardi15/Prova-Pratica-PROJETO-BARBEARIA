@@ -40,7 +40,9 @@ class FormularioScreen extends StatelessWidget {
                     descricao: preco,
                   );
 
-                  ServicoService.instance.adicionarServico(servico);
+                  ServicoService.instance.adicionarServico(servico).then((_) {
+                    Navigator.pop(context); // Volta para a tela anterior
+                  });
 
                   // Opcionalmente, mostrar um feedback ou navegação
                   ScaffoldMessenger.of(context).showSnackBar(
