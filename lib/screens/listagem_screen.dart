@@ -38,7 +38,6 @@ class _ListagemScreenState extends State<ListagemScreen> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('Nenhum serviço encontrado.'));
           }
-
           final servicos = snapshot.data!;
           return ListView.builder(
             itemCount: servicos.length,

@@ -7,7 +7,6 @@ class FormularioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Exemplo simples de campos
     final TextEditingController nomeController = TextEditingController();
     final TextEditingController precoController = TextEditingController();
 
@@ -31,20 +30,16 @@ class FormularioScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 final nome = nomeController.text;
-                final preco = precoController.text;
-
-                if (nome.isNotEmpty && preco.isNotEmpty) {
+                final descricao = precoController.text;
+                if (nome.isNotEmpty && descricao.isNotEmpty) {
                   final servico = Servico(
                     id: DateTime.now().millisecondsSinceEpoch,
                     nome: nome,
-                    descricao: preco,
+                    descricao: descricao,
                   );
-
                   ServicoService.instance.adicionarServico(servico).then((_) {
-                    Navigator.pop(context); // Volta para a tela anterior
+                    Navigator.pop(context);
                   });
-
-                  // Opcionalmente, mostrar um feedback ou navegação
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Serviço adicionado')),
                   );
